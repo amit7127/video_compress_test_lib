@@ -60,7 +60,7 @@ Due to high resolution on modern smart phone camera, video and image size are in
 
 Inside your Project:
 
-import {NativeModules} from from 'react-native';
+```import {NativeModules} from from 'react-native';
 const {CompressModule} = NativeModules;
 
 const EVENT_NAME = new NativeEventEmitter(NativeModules.CompressModule);
@@ -94,7 +94,3 @@ var errorCall = (errorMessage) => {
 // errorCall, SuccessCall :- Callback methode
 CompressModule.compressVideo(inputString, errorCall, successCall);
 
-
-
-
-  
