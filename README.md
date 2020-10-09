@@ -39,7 +39,62 @@
 ```javascript
 import RNVideoCompressTestLib from 'react-native-video-compress-test-lib';
 
-// TODO: What to do with the module?
+Add android:requestLegacyExternalStorage="true" in your AndroidManifest.xml file. like :
+
+<application
+  ...
+  android:requestLegacyExternalStorage="true"
+  .... >
+  
+ Add these line of dependency statements in your package.json file
+ 
+ "devDependencies": {
+  ...
+  "react-native-video-compress-test-lib": "1.0.1"
+  ...
+  }
+
 RNVideoCompressTestLib;
 ```
+Due to high resolution on modern smart phone camera, video and image size are increasing day-by-day. So it is very difficult to share on social platforms, thus we need to compress the file size. Silli compressor is based on mp4parser : isoParser.
+
+Inside your Project:
+
+import {NativeModules} from from 'react-native';
+const {CompressModule} = NativeModules;
+
+const EVENT_NAME = new NativeEventEmitter(NativeModules.CompressModule);
+
+//Percentage completion Emitter
+this.subscription = EVENT_NAME.addListener('EVENT_TAG', ({value})=> {  
+                                       console.log(value + "% completed");  
+                                        });
+                                        
+
+// fileName :- output file name
+// size :- output file size
+// path :- output file path
+// message :- conversion success message with file details
+
+var successCall = (fileName, size, path, message) => {
+      ToastModule.showToast(message);
+      
+      //remove emitter subscription after convertion success
+      this.subscription.remove();
+      
+      console.log(message);
+    };
+    
+var errorCall = (errorMessage) => {
+      console.log(errorMessage);
+    };
+    
+//Methode to start compression task
+// inputString :- inpot file path with extension -> '/storage/emulated/0/Download/20201003_095653.mp4'
+// errorCall, SuccessCall :- Callback methode
+CompressModule.compressVideo(inputString, errorCall, successCall);
+
+
+
+
   
